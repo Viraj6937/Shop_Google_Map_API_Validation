@@ -1,0 +1,238 @@
+{
+	"info": {
+		"_postman_id": "5f5fbae6-1096-468c-a401-7da72a44d69d",
+		"name": "Map_API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14277394"
+	},
+	"item": [
+		{
+			"name": "Add Shop",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"const place_id = jsonData.place_id;\r",
+							"\r",
+							"pm.collectionVariables.set('place_id',place_id);\r",
+							"\r",
+							"pm.test('validate response status code as 200',function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test('validate place id',function(){\r",
+							"    pm.expect(jsonData.place_id).eq(place_id);\r",
+							"})\r",
+							"\r",
+							"pm.test('validate status message',function(){\r",
+							"    pm.expect(jsonData.status).eq('OK');\r",
+							"})\r",
+							"\r",
+							"pm.test('validate content-type header response', function(){\r",
+							"    const header = pm.response.headers.get('Content-Type');\r",
+							"    pm.expect(header).eq('application/json;charset=UTF-8');\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"location\": {\r\n\"lat\": -38.383494,\r\n\"lng\": 33.427362\r\n},\r\n\"accuracy\": 50,\r\n\r\n\"name\": \"Frontline house\",\r\n\"phone_number\":\"(+91) 983 893 393\",\r\n\"address\": \"29, side layout, cohen 09\",\r\n\"types\": [\r\n\"shoe park\",\r\n\"shop\"\r\n],\r\n\"website\": \"http://google.com\",\r\n\"language\": \"French-IN\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/maps/api/place/add/json?key={{api_key}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"maps",
+						"api",
+						"place",
+						"add",
+						"json"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{api_key}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Shop Detail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test('validate status code',function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test('validate response body property',function(){\r",
+							"   pm.expect(jsonData).to.have.property('location');\r",
+							"   pm.expect(jsonData).to.have.property('name');\r",
+							"   pm.expect(jsonData).to.have.property('phone_number');\r",
+							"   pm.expect(jsonData).to.have.property('address');\r",
+							"   pm.expect(jsonData).to.have.property('types');\r",
+							"   pm.expect(jsonData).to.have.property('website');\r",
+							"   pm.expect(jsonData).to.have.property('language');\r",
+							"})\r",
+							"\r",
+							"pm.test('validate response time ', function(){\r",
+							"    const response = pm.response.responseTime;\r",
+							"    pm.expect(response).to.be.below(1000);\r",
+							"})\r",
+							"\r",
+							"pm.test('validate content-type header response', function(){\r",
+							"    const header = pm.response.headers.get('Content-Type');\r",
+							"    pm.expect(header).eq('application/json;charset=UTF-8');\r",
+							"})\r",
+							"\r",
+							"pm.test('validate shop name',function(){\r",
+							"    pm.expect(jsonData.name).eq('Frontline house');\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/maps/api/place/get/json?place_id={{place_id}}&key={{api_key}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"maps",
+						"api",
+						"place",
+						"get",
+						"json"
+					],
+					"query": [
+						{
+							"key": "place_id",
+							"value": "{{place_id}}"
+						},
+						{
+							"key": "key",
+							"value": "{{api_key}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove Shop",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('validate response code', function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"place_id\":{{place_id}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/maps/api/place/delete/json?key={{api_key}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"maps",
+						"api",
+						"place",
+						"delete",
+						"json"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{api_key}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "api_key",
+			"value": "qaclick123",
+			"type": "string"
+		},
+		{
+			"key": "place_id",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
