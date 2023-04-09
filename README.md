@@ -10,7 +10,7 @@
    - validate status message as 'OK'
    - validate header response for content-type
    
-2. GET request validation checklist</b>
+<b>2. GET request validation checklist</b>
    - validate status code as 200
    - validate response body property
    - validate response time (should be below 1000 ms)
