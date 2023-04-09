@@ -17,5 +17,5 @@
    - validate header response for content-type
    - validate shop name
 
-3. <b>DELETE request validation checklist</b>
+<b>3. DELETE request validation checklist</b>
    - validate response code as 200
